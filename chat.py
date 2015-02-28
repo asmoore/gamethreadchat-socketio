@@ -27,15 +27,15 @@ thread = None
 #OAuth2 with reddit 
 @app.route("/auth/", methods = ['GET'])
 def auth():
-    code = request.args.get('code', '')
-    info = r.get_access_information(code)
-    r.set_access_credentials(**info)
-    user = r.get_me()
-    session['access_token'] = info['access_token']
-    session['refresh_token'] = info['refresh_token']
-    session['username'] = user.name
-    session['logged_in'] = True    
-    return redirect(url_for('home'))
+	code = request.args.get('code', '')
+	info = r.get_access_information(code)
+	r.set_access_credentials(**info)
+	user = r.get_me()
+	session['access_token'] = info['access_token']
+	session['refresh_token'] = info['refresh_token']
+	session['username'] = user.name
+	session['logged_in'] = True    
+	return redirect(url_for('home'))
 
 
 #Home page
@@ -45,28 +45,28 @@ def home():
 	if thread is None:
 		thread = Thread(target=ping)
 		thread.start()
-    authorize_url = r.get_authorize_url('DifferentUniqueKey','identity edit submit',refreshable = True)
-    today = datetime.today().strftime('%Y%m%d')
-    yesterday = (datetime.now()-timedelta(1)).strftime('%Y%m%d')
-    games = db.session.query(Game).filter_by(game_date = today).all()
-    gameslist = [];
-    top_users = utils.get_top_users(yesterday)
-    top_scorers = utils.get_top_scorers(yesterday)
-    for game in games:
-        gameslist.append({"game_date": game.game_date, 
-                    "home_key": game.home_key,
-                    "visitor_key": game.visitor_key,
-                    "home_name": game.home_name,
-                    "visitor_name": game.visitor_name,
-                    "home_score": game.home_score,
-                    "visitor_score": game.visitor_score,
-                    "game_status": game.game_status,
-                    "game_time": game.game_time,
-                    "game_location": game.game_location,
-                    "period_value": game.period_value,
-                    "game_id": game.id,
-                    "thread_id": game.thread_id})
-    return render_template("home.html", gameslist = gameslist, authorize_url = authorize_url, top_users = top_users, top_scorers = top_scorers)
+	authorize_url = r.get_authorize_url('DifferentUniqueKey','identity edit submit',refreshable = True)
+	today = datetime.today().strftime('%Y%m%d')
+	yesterday = (datetime.now()-timedelta(1)).strftime('%Y%m%d')
+	games = db.session.query(Game).filter_by(game_date = today).all()
+	gameslist = [];
+	top_users = utils.get_top_users(yesterday)
+	top_scorers = utils.get_top_scorers(yesterday)
+	for game in games:
+		gameslist.append({"game_date": game.game_date, 
+					"home_key": game.home_key,
+					"visitor_key": game.visitor_key,
+					"home_name": game.home_name,
+					"visitor_name": game.visitor_name,
+					"home_score": game.home_score,
+					"visitor_score": game.visitor_score,
+					"game_status": game.game_status,
+					"game_time": game.game_time,
+					"game_location": game.game_location,
+					"period_value": game.period_value,
+					"game_id": game.id,
+					"thread_id": game.thread_id})
+	return render_template("home.html", gameslist = gameslist, authorize_url = authorize_url, top_users = top_users, top_scorers = top_scorers)
 
 
 #@app.route('/')
