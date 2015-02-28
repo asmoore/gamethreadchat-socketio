@@ -30,6 +30,7 @@
 
 <script type="text/javascript" charset="utf-8">
     var socket = io.connect('http://' + document.domain + ':' + location.port);
+    socket.join('room1');
 
     //the client has to emit something, otherwise the server doesn't acknowledge the connection!
     socket.emit('send_message', {message : 'connected'});

@@ -43,7 +43,7 @@ def auth():
 def home():
 	global thread
 	if thread is None:
-		thread = Thread(target=ping)
+		thread = Thread(target=chat_backend)
 		thread.start()
 	authorize_url = r.get_authorize_url('DifferentUniqueKey','identity edit submit',refreshable = True)
 	today = datetime.today().strftime('%Y%m%d')
@@ -69,22 +69,14 @@ def home():
 	#return render_template("home.html", gameslist = gameslist, authorize_url = authorize_url, top_users = top_users, top_scorers = top_scorers)
 	return render_template("home.html", gameslist = gameslist)
 
-#@app.route('/')
-#def index():
-#	global thread
-#	if thread is None:
-#		thread = Thread(target=ping)
-#		thread.start()
-#	return render_template('home.html')
 
-
-@app.route('/chat')
-def chat():
+@app.route("/chat/<thread_id>/", methods = ['GET'])
+def chat(thread_id):
 	global thread
 	if thread is None:
-		thread = Thread(target=ping)
+		thread = Thread(target=chat_backend)
 		thread.start()
-	return render_template('chat.html')
+	return render_template('chat.html',thread_id = thread_id)
 
 
 @socketio.on('send_message')
@@ -93,40 +85,40 @@ def handle_source(json_data):
     socketio.emit('echo', {'echo': 'Server Says: '+text})
 
 
-def ping():
+def chat_backend():
 	while True:
 		time.sleep(5)
-		#comment_dict = {"author": "catmoon", 
-		#				"body": "test", 
-		#				"author_flair_css_class": "Heat1", 
-		#				"comment_id": "qwresdf", 
-		#				"score": "sdfsafd",
-		#				"created_utc": "123123123", 
-		#				"emitted": "true"}
-		#message = json.dumps({'message': comment_dict,'category':'comment', 'thread': 'asda'})
-		#socketio.emit('echo', message)
-        today = datetime.today().strftime('%Y%m%d')
-        games = db.session.query(Game).filter_by(game_date = today).all()        
-        for game in games:
-            if game.scoreJSON:
-                scoreJSON = json.loads(game.scoreJSON)
-                ws.send({'message': scoreJSON, 'category': 'score', 'thread': game.thread_id})
-            if game.comments:
-                for comment in game.comments:
-                    if comment.emitted == "true":
-                        pass
-                    else:
-                        comment.emitted = "true"
-                        comment_dict = {"author": comment.author, 
-                                     "body": comment.body, 
-                                     "author_flair_css_class": comment.author_flair_css_class, 
-                                     "comment_id": comment.id, 
-                                     "score": comment.score,
-                                     "created_utc": comment.created_utc, 
-                                     "emitted": "true"}
-                        message = json.dumps({'message': comment_dict,'category':'comment', 'thread': 'asda'})
-                        ws.send(message)
-        db.session.commit()
+		comment_dict = {"author": "catmoon", 
+						"body": "test", 
+						"author_flair_css_class": "Heat1", 
+						"comment_id": "qwresdf", 
+						"score": "sdfsafd",
+						"created_utc": "123123123", 
+						"emitted": "true"}
+		message = json.dumps({'message': comment_dict,'category':'comment', 'thread': 'asda'})
+		socketio.emit('echo', message, room='room1')
+        #today = datetime.today().strftime('%Y%m%d')
+        #games = db.session.query(Game).filter_by(game_date = today).all()        
+        #for game in games:
+        #    if game.scoreJSON:
+        #        scoreJSON = json.loads(game.scoreJSON)
+        #        socketio.emit('echo', {'message': scoreJSON, 'category': 'score', 'thread': game.thread_id})
+        #    if game.comments:
+        #        for comment in game.comments:
+        #            if comment.emitted == "true":
+        #                pass
+        #            else:
+        #                comment.emitted = "true"
+        #                comment_dict = {"author": comment.author, 
+        #                             "body": comment.body, 
+        #                             "author_flair_css_class": comment.author_flair_css_class, 
+        #                             "comment_id": comment.id, 
+        #                             "score": comment.score,
+        #                             "created_utc": comment.created_utc, 
+        #                             "emitted": "true"}
+        #                message = json.dumps({'message': comment_dict,'category':'comment', 'thread': 'asda'})
+        #                socketio.emit('echo', message)
+        #db.session.commit()
 
 if __name__ == '__main__':
     socketio.run(app)
