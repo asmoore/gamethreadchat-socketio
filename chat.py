@@ -67,7 +67,7 @@ def home():
 	#				"game_id": game.id,
 	#				"thread_id": game.thread_id})
 	#return render_template("home.html", gameslist = gameslist, authorize_url = authorize_url, top_users = top_users, top_scorers = top_scorers)
-    return render_template("home.html")
+	return render_template("home.html")
 
 #@app.route('/')
 #def index():
