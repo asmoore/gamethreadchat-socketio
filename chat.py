@@ -6,7 +6,7 @@ import os
 import sys
 
 from flask import Flask, flash, render_template, session, request, redirect, url_for, jsonify
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit, join_room, leave_room,
 import praw
 
 from models import *
@@ -78,11 +78,16 @@ def chat(thread_id):
 		thread.start()
 	return render_template('chat.html',thread_id = thread_id)
 
-
 @socketio.on('send_message')
 def handle_source(json_data):
     text = json_data['message'].encode('ascii', 'ignore')
     socketio.emit('echo', {'echo': 'Server Says: '+text})
+
+
+@socketio.on('join')
+def join(message):
+    join_room(message['room'])
+    emit('my response', {'data': 'new user entered'})
 
 
 def chat_backend():
@@ -96,7 +101,7 @@ def chat_backend():
 						"created_utc": "123123123", 
 						"emitted": "true"}
 		message = json.dumps({'message': comment_dict,'category':'comment', 'thread': 'asda'})
-		socketio.emit('echo', message)
+		socketio.emit('echo', message, room='room1')
         #today = datetime.today().strftime('%Y%m%d')
         #games = db.session.query(Game).filter_by(game_date = today).all()        
         #for game in games:
