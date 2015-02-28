@@ -30,6 +30,8 @@
 
 <script type="text/javascript" charset="utf-8">
     var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    //the client has to emit something, otherwise the server doesn't acknowledge the connection!
     socket.emit('send_message', {message : 'connected'});
     
     function addComment(comment_id, author_flair_css_class, author, body, created_utc) {
