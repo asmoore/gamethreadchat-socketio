@@ -27,9 +27,5 @@ def create_data():
     db.session.commit()
 
 if __name__ == '__main__':
-    
-    if '-c' in sys.argv:
-        create_data()
-    else:
-        print "no command"
+	create_data()
 
