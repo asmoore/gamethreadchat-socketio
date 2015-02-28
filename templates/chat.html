@@ -54,8 +54,8 @@
 
     var socket = io.connect('http://' + document.domain + ':' + location.port);
     socket.on('echo', function(data){
-        var received = JSON.parse(data);
-        alert(data)
+        //var received = JSON.parse(data);
+        alert(data);
         //if (received.category == 'comment') {
         //    addComment(received.message.comment_id, received.message.author_flair_css_class, received.message.author, received.message.body, received.message.created_utc);
         //} else if (received.category == 'score') {
