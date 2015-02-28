@@ -2,7 +2,7 @@ import time
 from threading import Thread
 import json
 
-from flask import Flask, render_template
+from flask import Flask, flash, render_template, session, request, redirect, url_for, jsonify
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
@@ -20,7 +20,7 @@ def index():
 
 
 @app.route('/chat')
-def index():
+def chat():
 	global thread
 	if thread is None:
 		thread = Thread(target=ping)
