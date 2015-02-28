@@ -20,7 +20,7 @@ def handle_source(json_data):
 def ping():
 	while True:
 		time.sleep(5)
-	    socketio.emit('echo', {'echo': 'Server Says: test!'})
+		socketio.emit('echo', {'echo': 'Server Says: test!'})
 
 if __name__ == '__main__':
     socketio.run(app)
