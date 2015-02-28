@@ -6,7 +6,7 @@ import os
 import sys
 
 from flask import Flask, flash, render_template, session, request, redirect, url_for, jsonify
-from flask_socketio import SocketIO, emit, join_room, leave_room,
+from flask_socketio import SocketIO, emit, join_room, leave_room
 import praw
 
 from models import *
