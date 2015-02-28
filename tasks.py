@@ -139,4 +139,7 @@ if __name__ == '__main__':
     elif '-run_updates' in sys.argv:
         run_updates()
     else:
-        run_updates()
+        add_games()
+        update_thread_ids()
+        update_comments()
+        update_games()
