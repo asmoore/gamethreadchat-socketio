@@ -16,7 +16,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 initiate_app=Flask(__name__)
 initiate_app.secret_key=os.environ['SECRET_KEY']
-initiate_app.config['SQLALCHEMY_DATABASE_URI']=os.environ['DATABASE_URL']
+initiate_app.config['SQLALCHEMY_DATABASE_URI']=os.environ['SQLALCHEMY_DATABASE_URI']
 db=SQLAlchemy(initiate_app)
 
 from models import *
