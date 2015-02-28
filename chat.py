@@ -7,8 +7,16 @@ import sys
 
 from flask import Flask, flash, render_template, session, request, redirect, url_for, jsonify
 from flask_socketio import SocketIO, emit
+import praw
 
 from models import *
+
+REDIRECT_URL = os.environ['REDIRECT_URL']
+GTC_CLIENT_ID = os.environ['GTC_CLIENT_ID']
+GTC_SECRET = os.environ['GTC_SECRET']
+
+r = praw.Reddit('OAuth gamethread chat by /u/catmoon')
+r.set_oauth_app_info(GTC_CLIENT_ID, GTC_SECRET, REDIRECT_URL)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
@@ -21,7 +29,7 @@ def index():
 	if thread is None:
 		thread = Thread(target=ping)
 		thread.start()
-	return render_template('index.html')
+	return render_template('home.html')
 
 
 @app.route('/chat')
