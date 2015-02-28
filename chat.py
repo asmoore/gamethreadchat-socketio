@@ -76,7 +76,7 @@ def chat(thread_id):
 	if thread is None:
 		thread = Thread(target=chat_backend)
 		thread.start()
-	return render_template('chat.html',thread_id = thread_id)
+	return render_template('chat.html',thread_id=thread_id)
 
 @socketio.on('send_message')
 def handle_source(json_data):
