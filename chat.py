@@ -21,6 +21,10 @@ def index():
 
 @app.route('/chat')
 def chat():
+	global thread
+	if thread is None:
+		thread = Thread(target=ping)
+		thread.start()
 	return render_template('chat.html')
 
 
