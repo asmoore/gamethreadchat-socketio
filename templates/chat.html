@@ -33,7 +33,7 @@
     var socket = io.connect('http://' + document.domain + ':' + location.port);
     //the client has to emit something, otherwise the server doesn't acknowledge the connection!
     socket.emit('send_message', {message : 'connected'});
-    socket.emit('join', {room: "room1");
+    socket.emit('join', {room: "room1"});
     
     function addComment(comment_id, author_flair_css_class, author, body, created_utc) {
         var comment = '<li id="comment" class="collection-item" comment_id="'+comment_id+'">'
