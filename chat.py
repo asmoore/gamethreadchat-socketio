@@ -49,8 +49,8 @@ def home():
 	today = datetime.today().strftime('%Y%m%d')
 	yesterday = (datetime.now()-timedelta(1)).strftime('%Y%m%d')
 	gameslist = [];
-	top_users = utils.get_top_users(yesterday)
-	top_scorers = utils.get_top_scorers(yesterday)
+	#top_users = utils.get_top_users(yesterday)
+	#top_scorers = utils.get_top_scorers(yesterday)
 	games = db.session.query(Game).filter_by(game_date = today).all()
 	for game in games:
 		gameslist.append({"game_date": game.game_date, 
@@ -66,8 +66,8 @@ def home():
 					"period_value": game.period_value,
 					"game_id": game.id,
 					"thread_id": game.thread_id})
-	return render_template("home.html", gameslist = gameslist, authorize_url = authorize_url, top_users = top_users, top_scorers = top_scorers)
-	#return render_template("home.html")
+	#return render_template("home.html", gameslist = gameslist, authorize_url = authorize_url, top_users = top_users, top_scorers = top_scorers)
+	return render_template("home.html", gameslist = gameslist)
 
 #@app.route('/')
 #def index():
