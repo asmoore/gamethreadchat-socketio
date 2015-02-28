@@ -96,7 +96,7 @@ def chat_backend():
 						"created_utc": "123123123", 
 						"emitted": "true"}
 		message = json.dumps({'message': comment_dict,'category':'comment', 'thread': 'asda'})
-		socketio.emit('echo', message, namespace='/room1')
+		socketio.emit('echo', message)
         #today = datetime.today().strftime('%Y%m%d')
         #games = db.session.query(Game).filter_by(game_date = today).all()        
         #for game in games:
