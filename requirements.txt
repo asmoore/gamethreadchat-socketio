@@ -10,3 +10,5 @@ gunicorn==18.0
 greenlet==0.4.2
 itsdangerous==0.23
 ujson==1.33
+Flask-SQLAlchemy==1.0
+
