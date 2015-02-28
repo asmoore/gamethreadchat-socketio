@@ -45,10 +45,10 @@ def home():
 	if thread is None:
 		thread = Thread(target=ping)
 		thread.start()
-	#authorize_url = r.get_authorize_url('DifferentUniqueKey','identity edit submit',refreshable = True)
-	#today = datetime.today().strftime('%Y%m%d')
-	#yesterday = (datetime.now()-timedelta(1)).strftime('%Y%m%d')
-	#games = db.session.query(Game).filter_by(game_date = today).all()
+	authorize_url = r.get_authorize_url('DifferentUniqueKey','identity edit submit',refreshable = True)
+	today = datetime.today().strftime('%Y%m%d')
+	yesterday = (datetime.now()-timedelta(1)).strftime('%Y%m%d')
+	games = db.session.query(Game).filter_by(game_date = today).all()
 	#gameslist = [];
 	#top_users = utils.get_top_users(yesterday)
 	#top_scorers = utils.get_top_scorers(yesterday)
