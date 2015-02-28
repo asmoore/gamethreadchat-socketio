@@ -12,10 +12,10 @@ thread = None
 @app.route('/')
 def index():
 	global thread
-    if thread is None:
-        thread = Thread(target=ping)
-        thread.start()
-    return render_template('index.html')
+	if thread is None:
+		thread = Thread(target=ping)
+		thread.start()
+	return render_template('index.html')
 
 @socketio.on('send_message')
 def handle_source(json_data):
