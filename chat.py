@@ -19,10 +19,16 @@ def index():
 	return render_template('index.html')
 
 
+@app.route('/chat')
+def chat():
+	return render_template('chat.html')
+
+
 @socketio.on('send_message')
 def handle_source(json_data):
     text = json_data['message'].encode('ascii', 'ignore')
     socketio.emit('echo', {'echo': 'Server Says: '+text})
+
 
 def ping():
 	while True:
