@@ -36,6 +36,7 @@
 <!-- CSS !-->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/vendor/materialize.min.css') }}" media="screen,projection"/>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/gamethreadchat.css') }}" />
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
 <div class="wrapper">
 <!-- HEADER --> 
@@ -62,6 +63,18 @@
 
   </header>
 
+ <!-- Login/Logout Structure -->
+  <div id="login-modal" class="modal">
+    <h4>Log in to reddit</h4>
+    <p>The following link will redirect you to reddit's OAuth page. Sign in there and it will bring you back to Gamethread Chat</p>
+    <a href="authorize_url">OAuth login</a>
+  </div>
+
+  <div id="logout-modal" class="modal">
+    <h4>Logout</h4>
+    <p>Are you sure you want to logout?</p>
+    <a href="url_for('logout')">Yup</a>
+  </div>
 
 <!-- BODY -->
 
@@ -70,5 +83,18 @@
 <!-- FOOTER -->
 </div>
 </body>
+
+<!-- SCRIPTS -->
+<script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+<script type='text/javascript' src="/static/js/vendor/materialize.min.js"></script>
+
+<script>
+  $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal-trigger').leanModal();
+  });
+
+  $(".button-collapse").sideNav();
+</script>
 
 </html>

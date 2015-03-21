@@ -46,7 +46,8 @@ def home():
 		thread = Thread(target=chat_backend)
 		thread.start()
 	authorize_url = r.get_authorize_url('DifferentUniqueKey','identity edit submit',refreshable = True)
-	today = datetime.today().strftime('%Y%m%d')
+	#today = datetime.today().strftime('%Y%m%d')
+	today = "20150317"
 	yesterday = (datetime.now()-timedelta(1)).strftime('%Y%m%d')
 	gameslist = [];
 	#top_users = utils.get_top_users(yesterday)
@@ -65,18 +66,38 @@ def home():
 					"game_location": game.game_location,
 					"period_value": game.period_value,
 					"game_id": game.id,
-					"thread_id": game.thread_id})
+					"thread_id": game.thread_id,
+					"comments_count": game.comments.count()})
 	#return render_template("home.html", gameslist = gameslist, authorize_url = authorize_url, top_users = top_users, top_scorers = top_scorers)
 	return render_template("home.html", gameslist = gameslist)
 
 
 @app.route("/chat/<thread_id>/", methods = ['GET'])
 def chat(thread_id):
+	games = db.session.query(Game).filter_by(thread_id = thread_id).all()
+	comment_list = []
+	for game in games: 
+		if game.comments:
+			for comment in game.comments:
+				comment_dict = {"author": comment.author, 
+								"body": comment.body, 
+								"author_flair_css_class": comment.author_flair_css_class, 
+								"comment_id": comment.comment_id, 
+								"score": comment.score,
+								"created_utc": comment.created_utc, 
+								"emitted": "true"}
+				comment_list.append(comment_dict)
+	comment_list = sorted(comment_list, key = lambda k: k['created_utc'], reverse = True) 
+    
 	global thread
 	if thread is None:
 		thread = Thread(target=chat_backend)
 		thread.start()
-	return render_template('chat.html',thread_id=thread_id)
+	return render_template("chat.html", thread_id = thread_id,
+							home_key = game.home_key, visitor_key = game.visitor_key,
+							home_name = game.home_name, visitor_name = game.visitor_name,
+							home_score = game.home_score, visitor_score = game.visitor_score,
+							comment_list = comment_list)
 
 @socketio.on('send_message')
 def handle_source(json_data):

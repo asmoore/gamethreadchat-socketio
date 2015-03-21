@@ -111,7 +111,9 @@ body {
 .period_value, .game_location {
     text-align: center;
 }
-
+.comments_count > img {
+    vertical-align: top;
+}
 .card-content {
     padding-bottom: 0px;
 }
